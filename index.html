@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpotDraft x Bhanu Kumar · Proof of Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:    #080a0d;
+  --bg2:   #0d1018;
+  --bg3:   #121620;
+  --bg4:   #181d2a;
+  --bg5:   #1e2535;
+  --bdr:   rgba(255,255,255,0.06);
+  --bmd:   rgba(255,255,255,0.10);
+  --blg:   rgba(255,255,255,0.18);
+  --t1:    #eef0f4;
+  --t2:    #8993a8;
+  --t3:    #404d65;
+
+  /* SpotDraft brand: a cool indigo-teal */
+  --acc:   #4f7ef7;
+  --acc2:  #3a62d4;
+  --accd:  rgba(79,126,247,0.12);
+  --accg:  rgba(79,126,247,0.06);
+  --acct:  #8fb4fc;
+
+  --teal:  #2ec4a6;
+  --teald: rgba(46,196,166,0.10);
+  --tealt: #5edac4;
+
+  --amb:   #f0a030;
+  --ambd:  rgba(240,160,48,0.10);
+  --ambt:  #f5bc60;
+
+  --red:   #e05555;
+  --redd:  rgba(224,85,85,0.10);
+
+  --grn:   #34c97a;
+  --grnd:  rgba(52,201,122,0.10);
+}
+
+html{scroll-behavior:smooth;scroll-padding-top:58px}
+body{
+  background:var(--bg);color:var(--t1);
+  font-family:'DM Sans',sans-serif;
+  font-size:15.5px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--acc2);border-radius:2px}
+
+/* reading bar */
+#rbar{position:fixed;top:0;left:0;height:2px;background:var(--acc);z-index:999;width:0;transition:width .08s linear}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:400;
+  background:rgba(8,10,13,0.93);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bdr);
+  padding:0 5vw;
+}
+.nav-i{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;gap:16px;
+}
+.nav-brand{
+  font-family:'DM Mono',monospace;font-size:11.5px;
+  color:var(--t2);letter-spacing:0.04em;white-space:nowrap;flex-shrink:0;
+  display:flex;align-items:center;gap:8px;
+}
+.nav-brand .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--accd)}
+.nav-brand .sd{color:var(--acct)}
+
+.nav-links{display:flex;gap:2px}
+.nl{
+  font-family:'DM Mono',monospace;
+  font-size:11.5px;font-weight:400;letter-spacing:0.02em;
+  padding:5px 13px;border-radius:5px;
+  border:1px solid transparent;
+  color:var(--t3);background:transparent;
+  text-decoration:none;transition:all .14s;white-space:nowrap;
+}
+.nl:hover{color:var(--t2);border-color:var(--bdr)}
+.nl.cta{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:500}
+.nl.cta:hover{background:var(--acc2);border-color:var(--acc2)}
+
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;flex-shrink:0}
+.hbg span{display:block;width:20px;height:1.5px;background:var(--t2);border-radius:2px;transition:transform .28s,opacity .28s}
+.hbg.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+.mob-menu{
+  display:none;position:fixed;inset:0;top:56px;
+  background:var(--bg);z-index:390;
+  flex-direction:column;padding:28px 5vw;
+  border-top:1px solid var(--bdr);
+}
+.mob-menu.open{display:flex}
+.mob-menu a{
+  display:block;font-family:'Epilogue',sans-serif;
+  font-size:22px;font-weight:700;
+  color:var(--t1);text-decoration:none;
+  padding:16px 0;border-bottom:1px solid var(--bdr);
+}
+.mob-menu a.cta-m{color:var(--acct);border-bottom:none;margin-top:8px}
+@media(max-width:720px){.nav-links{display:none}.hbg{display:flex}}
+
+/* LAYOUT */
+.wrap{max-width:1200px;margin:0 auto;padding:0 5vw;position:relative;z-index:1}
+section{padding:80px 0;border-bottom:1px solid var(--bdr)}
+section:last-of-type{border-bottom:none}
+
+/* EYE / LABEL */
+.eye{
+  font-family:'DM Mono',monospace;font-size:10.5px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--acct);display:flex;align-items:center;gap:10px;
+  margin-bottom:22px;
+}
+.eye::before{content:'';display:block;width:24px;height:1px;background:var(--acc)}
+
+.sh{
+  font-family:'Epilogue',sans-serif;
+  font-size:clamp(22px,3vw,34px);font-weight:800;
+  color:var(--t1);line-height:1.2;margin-bottom:12px;
+}
+.ssub{font-size:15px;color:var(--t2);line-height:1.78;max-width:600px}
+
+/* HERO */
+.hero{
+  padding:96px 0 80px;
+  border-bottom:1px solid var(--bdr);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-200px;right:-200px;
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(79,126,247,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--acct);margin-bottom:32px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow::before{
+  content:'';display:block;width:32px;height:1px;background:var(--acc)
+}
+.hero-h{
+  font-family:'Epilogue',sans-serif;
+  font-size:clamp(38px,6vw,76px);
+  font-weight:900;line-height:1.0;
+  letter-spacing:-0.02em;
+  color:var(--t1);
+  max-width:860px;
+  margin-bottom:28px;
+}
+.hero-h .hl{color:var(--acct)}
+.hero-h .hl2{color:var(--tealt)}
+.hero-sub{
+  font-size:16px;color:var(--t2);
+  line-height:1.75;max-width:540px;
+  margin-bottom:44px;
+}
+.hero-meta{
+  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+  margin-bottom:48px;
+}
+.hm-item{
+  font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:0.08em;color:var(--t3);
+  display:flex;align-items:center;gap:7px;
+}
+.hm-item .dot{width:5px;height:5px;border-radius:50%;background:var(--acc)}
+
+.hero-links{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 24px;border-radius:6px;
+  font-size:13.5px;font-weight:600;
+  text-decoration:none;transition:all .15s;
+  font-family:'DM Sans',sans-serif;letter-spacing:0.01em;
+  cursor:pointer;border:none;
+}
+.btn-primary{background:var(--acc);color:#fff}
+.btn-primary:hover{background:var(--acc2)}
+.btn-ghost{
+  background:transparent;color:var(--t2);
+  border:1.5px solid var(--bmd);
+}
+.btn-ghost:hover{border-color:var(--blg);color:var(--t1)}
+
+/* HERO STAT ROW */
+.stat-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--bdr);
+  border:1px solid var(--bdr);border-radius:10px;
+  overflow:hidden;margin-top:60px;
+}
+.stat-cell{
+  padding:28px 28px;background:var(--bg2);
+}
+.stat-cell:hover{background:var(--bg3)}
+.stat-n{
+  font-family:'Epilogue',sans-serif;
+  font-size:clamp(28px,3.5vw,42px);font-weight:900;
+  color:var(--t1);line-height:1;margin-bottom:6px;
+  letter-spacing:-0.02em;
+}
+.stat-n .acc{color:var(--acct)}
+.stat-l{font-size:12px;color:var(--t2);font-family:'DM Mono',monospace;letter-spacing:0.06em;text-transform:uppercase}
+
+/* POSITIONING */
+.pos-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:24px;margin-top:40px;
+}
+.pos-card{
+  background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:10px;padding:28px;
+  transition:border-color .2s;
+}
+.pos-card:hover{border-color:var(--bmd)}
+.pos-card-label{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.pos-card-label.cur{color:var(--amb)}
+.pos-card-label.prop{color:var(--teal)}
+.pos-card-h{
+  font-family:'Epilogue',sans-serif;
+  font-size:18px;font-weight:700;color:var(--t1);
+  margin-bottom:10px;line-height:1.3;
+}
+.pos-card p{font-size:14px;color:var(--t2);line-height:1.7}
+
+.pos-bridge{
+  margin-top:24px;
+  background:var(--accd);border:1px solid rgba(79,126,247,0.2);
+  border-radius:10px;padding:28px 32px;
+}
+.pos-bridge-label{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--acct);
+  margin-bottom:10px;
+}
+.pos-bridge p{font-size:14.5px;color:var(--t1);line-height:1.72}
+
+/* BATTLECARD */
+.bc-table{
+  width:100%;border-collapse:collapse;margin-top:36px;
+  border:1px solid var(--bdr);border-radius:10px;overflow:hidden;
+}
+.bc-table th{
+  background:var(--bg3);
+  font-family:'DM Mono',monospace;font-size:10.5px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--t2);padding:14px 20px;text-align:left;
+  border-bottom:1px solid var(--bdr);
+}
+.bc-table td{
+  padding:14px 20px;border-bottom:1px solid var(--bdr);
+  font-size:13.5px;color:var(--t2);vertical-align:top;
+  line-height:1.6;
+}
+.bc-table tr:last-child td{border-bottom:none}
+.bc-table tr:hover td{background:rgba(255,255,255,0.02)}
+.bc-table .comp{color:var(--t1);font-weight:500}
+.win{color:var(--grn);font-weight:600}
+.lose{color:var(--red)}
+.mid{color:var(--amb)}
+
+/* GTM PLAYS */
+.plays-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:20px;margin-top:36px;
+}
+.play-card{
+  background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:10px;padding:26px;
+  transition:all .2s;
+}
+.play-card:hover{border-color:var(--bmd);background:var(--bg3)}
+.play-tag{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:4px 10px;border-radius:4px;
+  display:inline-block;margin-bottom:14px;
+}
+.tag-pipeline{background:var(--accd);color:var(--acct)}
+.tag-expand{background:var(--teald);color:var(--tealt)}
+.tag-compete{background:var(--redd);color:var(--red)}
+.tag-enable{background:var(--ambd);color:var(--ambt)}
+.tag-ai{background:var(--grnd);color:var(--grn)}
+
+.play-h{
+  font-family:'Epilogue',sans-serif;
+  font-size:16px;font-weight:700;color:var(--t1);
+  margin-bottom:10px;line-height:1.3;
+}
+.play-card p{font-size:13.5px;color:var(--t2);line-height:1.68}
+.play-kpi{
+  margin-top:16px;padding-top:14px;
+  border-top:1px solid var(--bdr);
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--t3);letter-spacing:0.04em;
+}
+.play-kpi span{color:var(--acct)}
+
+/* MESSAGING AUDIT */
+.msg-list{
+  display:flex;flex-direction:column;gap:16px;margin-top:36px;
+}
+.msg-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;
+  border:1px solid var(--bdr);border-radius:10px;overflow:hidden;
+}
+.msg-before,.msg-after{
+  padding:20px 22px;
+}
+.msg-before{
+  background:var(--bg2);border-right:1px solid var(--bdr);
+}
+.msg-after{background:var(--bg3)}
+.msg-label{
+  font-family:'DM Mono',monospace;font-size:9.5px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.msg-label.bef{color:var(--amb)}
+.msg-label.aft{color:var(--teal)}
+.msg-before p,.msg-after p{font-size:13.5px;line-height:1.65;color:var(--t2)}
+.msg-after p{color:var(--t1)}
+
+/* ENABLEMENT CARDS */
+.en-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:18px;margin-top:36px;
+}
+.en-card{
+  background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:10px;padding:24px;
+  transition:all .2s;
+}
+.en-card:hover{border-color:var(--bmd)}
+.en-icon{
+  width:40px;height:40px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-bottom:14px;
+}
+.en-h{
+  font-family:'Epilogue',sans-serif;
+  font-size:15px;font-weight:700;color:var(--t1);
+  margin-bottom:8px;
+}
+.en-card p{font-size:13px;color:var(--t2);line-height:1.65}
+
+/* AI WORKFLOW */
+.ai-flow{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:16px;margin-top:36px;
+}
+.ai-step{
+  background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:10px;padding:22px 18px;
+  position:relative;
+  transition:all .2s;
+}
+.ai-step:hover{border-color:var(--accd);background:var(--bg3)}
+.ai-step-n{
+  font-family:'Epilogue',sans-serif;font-size:38px;
+  font-weight:900;color:var(--bg4);line-height:1;
+  margin-bottom:10px;
+}
+.ai-step-h{
+  font-family:'Epilogue',sans-serif;
+  font-size:14px;font-weight:700;color:var(--t1);margin-bottom:7px;
+}
+.ai-step p{font-size:12.5px;color:var(--t2);line-height:1.6}
+.ai-arrow{
+  position:absolute;right:-9px;top:50%;transform:translateY(-50%);
+  color:var(--t3);font-size:14px;z-index:1;
+}
+.ai-step:last-child .ai-arrow{display:none}
+
+/* ABOUT */
+.about-grid{
+  display:grid;grid-template-columns:1.3fr 1fr;
+  gap:60px;align-items:start;margin-top:40px;
+}
+.about-p{font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:16px}
+.about-p:last-child{margin-bottom:0}
+.about-tags{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;
+}
+.atag{
+  font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:0.04em;padding:5px 12px;
+  border-radius:4px;background:var(--bg3);
+  border:1px solid var(--bdr);color:var(--t2);
+}
+.contact-card{
+  background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:12px;padding:28px;
+}
+.cc-name{
+  font-family:'Epilogue',sans-serif;font-size:22px;
+  font-weight:800;color:var(--t1);margin-bottom:4px;
+}
+.cc-title{font-size:13px;color:var(--acct);margin-bottom:20px;font-family:'DM Mono',monospace;letter-spacing:0.04em}
+.cc-links{display:flex;flex-direction:column;gap:10px}
+.cc-link{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--t2);text-decoration:none;
+  transition:color .14s;
+}
+.cc-link:hover{color:var(--t1)}
+.cc-link-icon{
+  width:32px;height:32px;border-radius:6px;
+  background:var(--bg3);border:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.cc-divider{height:1px;background:var(--bdr);margin:16px 0}
+.cc-note{font-size:12px;color:var(--t3);line-height:1.6}
+
+/* OTHER WORK */
+.ow-grid{
+  display:flex;flex-direction:column;gap:0;
+  margin-top:36px;border:1px solid var(--bdr);border-radius:10px;overflow:hidden;
+}
+.ow-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;border-bottom:1px solid var(--bdr);
+  transition:background .15s;gap:16px;
+}
+.ow-row:last-child{border-bottom:none}
+.ow-row:hover{background:var(--bg2)}
+.ow-left{display:flex;align-items:center;gap:16px;flex:1;min-width:0}
+.ow-num{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--t3);width:24px;flex-shrink:0;
+}
+.ow-name{
+  font-family:'Epilogue',sans-serif;font-size:15px;
+  font-weight:700;color:var(--t1);white-space:nowrap;
+}
+.ow-desc{font-size:13px;color:var(--t3);margin-left:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ow-tag{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:3px 9px;border-radius:4px;flex-shrink:0;
+}
+.ow-link{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--acc);text-decoration:none;
+  padding:6px 14px;border-radius:5px;
+  border:1px solid var(--accd);
+  transition:all .14s;white-space:nowrap;flex-shrink:0;
+}
+.ow-link:hover{background:var(--accd);color:var(--acct)}
+
+/* FOOTER */
+footer{
+  padding:40px 5vw;border-top:1px solid var(--bdr);
+  background:var(--bg);
+}
+.footer-i{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:16px;flex-wrap:wrap;
+}
+.footer-brand{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--t3);letter-spacing:0.04em;
+}
+.footer-links{display:flex;gap:20px}
+.footer-links a{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--t3);text-decoration:none;transition:color .14s;
+}
+.footer-links a:hover{color:var(--t2)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .pos-grid{grid-template-columns:1fr}
+  .plays-grid{grid-template-columns:1fr}
+  .en-grid{grid-template-columns:1fr 1fr}
+  .ai-flow{grid-template-columns:1fr 1fr}
+  .about-grid{grid-template-columns:1fr;gap:36px}
+  .bc-table{font-size:12.5px}
+  .bc-table th,.bc-table td{padding:12px 14px}
+  .stat-row{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .hero{padding:64px 0 56px}
+  .hero-h{letter-spacing:-0.01em}
+  .stat-row{grid-template-columns:1fr}
+  .en-grid{grid-template-columns:1fr}
+  .ai-flow{grid-template-columns:1fr}
+  .msg-row{grid-template-columns:1fr}
+  .msg-before{border-right:none;border-bottom:1px solid var(--bdr)}
+  .ow-desc{display:none}
+  section{padding:56px 0}
+}
+</style>
+</head>
+<body>
+
+<div id="rbar"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-i">
+    <div class="nav-brand">
+      <span class="dot"></span>
+      <span><span class="sd">SpotDraft</span> &times; Bhanu Kumar</span>
+    </div>
+    <div class="nav-links">
+      <a href="#positioning" class="nl">Positioning</a>
+      <a href="#gtm" class="nl">GTM Plays</a>
+      <a href="#messaging" class="nl">Messaging</a>
+      <a href="#enablement" class="nl">Enablement</a>
+      <a href="#ai" class="nl">AI Workflow</a>
+      <a href="#work" class="nl">Other Work</a>
+      <a href="https://drive.google.com/file/d/16YxkMHpBQK0nUaM9NcRrBVWuNuxS2q-l/view?usp=sharing" target="_blank" class="nl cta">Resume</a>
+    </div>
+    <button class="hbg" id="hbg" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mob-menu">
+  <a href="#positioning" onclick="closeMob()">Positioning</a>
+  <a href="#gtm" onclick="closeMob()">GTM Plays</a>
+  <a href="#messaging" onclick="closeMob()">Messaging</a>
+  <a href="#enablement" onclick="closeMob()">Enablement</a>
+  <a href="#ai" onclick="closeMob()">AI Workflow</a>
+  <a href="#work" onclick="closeMob()">Other Work</a>
+  <a href="https://drive.google.com/file/d/16YxkMHpBQK0nUaM9NcRrBVWuNuxS2q-l/view?usp=sharing" target="_blank" class="cta-m">Resume &rarr;</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">Proof of Work &middot; GTM Marketing &middot; PMM</div>
+    <h1 class="hero-h">
+      Legal contracts<br>shouldn't need<br>
+      <span class="hl">a lawyer</span> to<br>
+      <span class="hl2">move fast.</span>
+    </h1>
+    <p class="hero-sub">SpotDraft is turning CLM from a compliance cost center into a growth multiplier. Here's how I'd help own that narrative, build the pipeline plays, and get the sales team speaking the same language.</p>
+    <div class="hero-meta">
+      <span class="hm-item"><span class="dot"></span>B2B SaaS PMM</span>
+      <span class="hm-item"><span class="dot"></span>Bengaluru</span>
+      <span class="hm-item"><span class="dot"></span>GTM + Sales Enablement</span>
+    </div>
+    <div class="hero-links">
+      <a href="#positioning" class="btn btn-primary">See the work &darr;</a>
+      <a href="https://linkedin.com/in/bhanuexcalibur/" target="_blank" class="btn btn-ghost">LinkedIn</a>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="stat-n"><span class="acc">$92M</span></div>
+        <div class="stat-l">Raised to date &mdash; Qualcomm Ventures, Prosus & more</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n"><span class="acc">1M+</span></div>
+        <div class="stat-l">Contracts processed annually by 50k monthly active users</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n"><span class="acc">173%</span></div>
+        <div class="stat-l">YoY contract volume growth &mdash; the product is working</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section id="positioning">
+  <div class="wrap">
+    <div class="eye">Positioning Audit</div>
+    <h2 class="sh">The gap between where SpotDraft sits and where it belongs.</h2>
+    <p class="ssub">SpotDraft is winning deals on implementation speed and pricing, but that's a positioning trap. Here's what I see, and how I'd shift it.</p>
+
+    <div class="pos-grid">
+      <div class="pos-card">
+        <div class="pos-card-label cur">Current Perception</div>
+        <div class="pos-card-h">"The affordable Ironclad for mid-market teams."</div>
+        <p>Most analyst comparisons and G2 reviews position SpotDraft as the faster, cheaper alternative to enterprise-heavy incumbents. That's not wrong, but it's also not a category-defining narrative. It anchors SpotDraft to a competitor's gravity instead of creating its own orbit.</p>
+      </div>
+      <div class="pos-card">
+        <div class="pos-card-label prop">Owned Opportunity</div>
+        <div class="pos-card-h">"The AI-native CLM built for the speed of modern business."</div>
+        <p>VerifAI, Sidebar, and on-device AI via Qualcomm are genuinely differentiated bets. The Snapdragon Summit showcase signals SpotDraft isn't just adding AI features, it's rethinking where contract intelligence lives: on the device, offline, private. That's a story no competitor can tell right now.</p>
+      </div>
+    </div>
+
+    <div class="pos-bridge">
+      <div class="pos-bridge-label">The Positioning Bridge</div>
+      <p>The shift isn't about abandoning mid-market. It's about leading with the AI-native angle to justify premium enterprise expansion, while keeping the ease-of-use moat that makes the mid-market story true. The headline becomes: <em>"Ironclad took 6 months to implement and still bolted on AI. SpotDraft ships in 4 weeks and runs AI where your contracts actually live."</em> That's not just faster. That's a different product category.</p>
+    </div>
+
+    <div style="margin-top:36px">
+      <div class="eye">Buyer Persona Map</div>
+      <div class="en-grid" style="margin-top:24px">
+        <div class="en-card">
+          <div class="en-icon" style="background:var(--accd)">&#x2696;</div>
+          <div class="en-h">General Counsel / VP Legal</div>
+          <p>Wants AI that doesn't require sending sensitive contracts to a third-party cloud. SpotDraft's on-device VerifAI is a direct answer to the #1 legal AI objection: data privacy.</p>
+        </div>
+        <div class="en-card">
+          <div class="en-icon" style="background:var(--teald)">&#x1F4BC;</div>
+          <div class="en-h">Head of Revenue Ops / Sales Ops</div>
+          <p>Cares about contract-to-close velocity. Needs to know legal won't be the bottleneck. Position SpotDraft as the platform that turns the legal team from a blocker into a partner.</p>
+        </div>
+        <div class="en-card">
+          <div class="en-icon" style="background:var(--ambd)">&#x1F4CB;</div>
+          <div class="en-h">Procurement / Finance Leadership</div>
+          <p>Buying on total cost of ownership, not just license price. The 4-6 week implementation with zero third-party consultants is a real dollar figure, not a talking point.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GTM PLAYS -->
+<section id="gtm">
+  <div class="wrap">
+    <div class="eye">GTM Playbook</div>
+    <h2 class="sh">Four plays I'd run in the first 90 days.</h2>
+    <p class="ssub">Each play maps to a real whitespace in the current SpotDraft GTM motion, with a clear target segment, trigger, and success metric.</p>
+
+    <div class="plays-grid">
+      <div class="play-card">
+        <span class="play-tag tag-compete">Competitive Displacement</span>
+        <div class="play-h">The "AI Debt" Campaign Against Legacy CLMs</div>
+        <p>Target accounts stuck on Ironclad, DocuSign CLM, or Icertis who evaluated them before 2023. Those platforms have bolted on AI as an afterthought. SpotDraft's embedded AI and on-device VerifAI are native. Run a campaign built around the concept of "AI Debt": the compounding cost of using a platform that wasn't designed for AI from the ground up. Outbound sequence + competitive landing page + webinar with a GC who switched.</p>
+        <div class="play-kpi">Target: <span>Mid-market legal ops leads, 200-2000 employees</span></div>
+      </div>
+      <div class="play-card">
+        <span class="play-tag tag-pipeline">Pipeline Generation</span>
+        <div class="play-h">The Legal Ops Benchmarking Report</div>
+        <p>The 2025 Contracting Efficiency Benchmarking Report already exists. Build a full distribution engine around it: LinkedIn lead gen form, webinar series with panelists from Apollo.io or Whatfix (existing customers), and a Sales sequence that opens with benchmark data specific to the prospect's industry. Content that sells without selling.</p>
+        <div class="play-kpi">Target: <span>Director-level legal ops and procurement at 500+ employee companies</span></div>
+      </div>
+      <div class="play-card">
+        <span class="play-tag tag-expand">Expansion Play</span>
+        <div class="play-h">Cross-Sell: ClickThrough for the Business Teams</div>
+        <p>SpotDraft's ClickThrough product handles high-volume, self-serve agreement acceptance. Most legal teams buy SpotDraft CLM, but their sales and procurement colleagues never hear about ClickThrough. Build a post-onboarding expansion sequence at the 60-day mark that introduces ClickThrough to the VP of Sales or Head of Partnerships at every existing CLM customer. Legal bought it. Revenue Ops should be using it.</p>
+        <div class="play-kpi">Target: <span>Existing CLM customers, Sales and Partnerships stakeholders</span></div>
+      </div>
+      <div class="play-card">
+        <span class="play-tag tag-ai">AI Positioning Play</span>
+        <div class="play-h">Privacy-First AI: Own the On-Device Narrative</div>
+        <p>The Qualcomm Ventures investment and Snapdragon Summit showcase are underutilized PR assets. Build a narrative campaign around "Private AI for Legal": a landing page, a technical explainer video (GC-friendly, not engineer-facing), and a series of LinkedIn posts from SpotDraft's CEO explaining why sending your contracts to a cloud AI model is a risk no board wants. Timed to coincide with upcoming data privacy regulation news cycles in the US and EU.</p>
+        <div class="play-kpi">Target: <span>Enterprise legal teams at regulated industries: FS, healthcare, SaaS</span></div>
+      </div>
+      <div class="play-card">
+        <span class="play-tag tag-enable">Renewal Defense</span>
+        <div class="play-h">Lifecycle Marketing: The 90-Day Value Report</div>
+        <p>Most CLM churn happens at renewal when the champion who bought the tool has moved on and the new stakeholder doesn't know why they're paying for it. Build an automated 90-day report delivered to the GC and the Economic Buyer that quantifies contracts processed, time saved vs. industry average, risk flags caught by VerifAI, and approval cycle improvements. Make the ROI visible before anyone asks for it.</p>
+        <div class="play-kpi">Target: <span>All active accounts, triggered at 90 days post-onboarding</span></div>
+      </div>
+      <div class="play-card">
+        <span class="play-tag tag-compete">Competitive Defense</span>
+        <div class="play-h">The "Switch Risk" Battlecard for Renewal Conversations</div>
+        <p>When HyperStart or Juro shows up in a renewal conversation, the Sales team needs more than a pricing comparison. Build a "Switch Risk" one-pager that quantifies the real cost of migration: data migration hours, retraining, workflow rebuilds, and implementation downtime. Most customers underestimate this by 3-4x. Give Sales a number, not just a talking point.</p>
+        <div class="play-kpi">Target: <span>At-risk renewal accounts showing competitor evaluation signals</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MESSAGING AUDIT -->
+<section id="messaging">
+  <div class="wrap">
+    <div class="eye">Messaging Audit</div>
+    <h2 class="sh">Where the current copy leaves value on the table.</h2>
+    <p class="ssub">SpotDraft's website and materials do a lot of things well. These are four moments where sharper language would convert harder.</p>
+
+    <div class="msg-list">
+      <div class="msg-row">
+        <div class="msg-before">
+          <div class="msg-label bef">Current Homepage Hero</div>
+          <p>"SpotDraft's contract management solution has been built from the ground up to work with contract management processes of teams of all sizes."</p>
+        </div>
+        <div class="msg-after">
+          <div class="msg-label aft">Proposed</div>
+          <p>"Your legal team shouldn't be the reason deals take longer to close. SpotDraft gets contracts from draft to signed in days, not weeks, with AI that reviews, flags, and learns your playbook."</p>
+        </div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-before">
+          <div class="msg-label bef">Current VerifAI Description</div>
+          <p>"Whenever you upload a contract to SpotDraft, VerifAI automatically flags deviations from your organizational standards right within your CLM."</p>
+        </div>
+        <div class="msg-after">
+          <div class="msg-label aft">Proposed</div>
+          <p>"VerifAI reads every clause against your approved playbook before your legal team does. Risks flagged, deviations marked, and it runs entirely on your device, so your contract data never leaves the building."</p>
+        </div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-before">
+          <div class="msg-label bef">Current Competitive Positioning</div>
+          <p>"Unlike Ironclad, SpotDraft is designed for ease of use, enabling legal and business teams to adapt quickly."</p>
+        </div>
+        <div class="msg-after">
+          <div class="msg-label aft">Proposed</div>
+          <p>"Ironclad was built for the legal ops teams of 2018. SpotDraft was built for the legal teams trying to move at the speed of their business in 2025. The difference shows up in your go-live timeline: 4-6 weeks vs. 3-6 months."</p>
+        </div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-before">
+          <div class="msg-label bef">Current Sidebar Description</div>
+          <p>"Sidebar is an agentic AI-powered legal assistant. Alongside SpotDraft CLM, it transforms every negotiation, contract, and policy update into a living knowledge system."</p>
+        </div>
+        <div class="msg-after">
+          <div class="msg-label aft">Proposed</div>
+          <p>"Sidebar remembers every contract your team has ever negotiated. Ask it what your standard indemnification language is, whether a new vendor's terms match your playbook, or why a specific clause was changed in last quarter's deals. The institutional knowledge that used to live in one partner's head, now searchable."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENABLEMENT -->
+<section id="enablement">
+  <div class="wrap">
+    <div class="eye">Sales Enablement</div>
+    <h2 class="sh">What I'd build for the global sales team in quarter one.</h2>
+    <p class="ssub">SpotDraft's sales team is selling a technical product to buyers who range from startup GCs to enterprise legal ops directors. The enablement kit needs to meet each persona where they are.</p>
+
+    <div class="en-grid">
+      <div class="en-card">
+        <div class="en-icon" style="background:var(--accd)">&#x1F5FA;</div>
+        <div class="en-h">Competitive Battlecards</div>
+        <p>One card per major competitor: Ironclad, DocuSign CLM, Juro, HyperStart. Format: where we win, where we lose honestly, how to reframe the conversation, and the one question to ask that kills their objection. Living documents, updated quarterly.</p>
+      </div>
+      <div class="en-card">
+        <div class="en-icon" style="background:var(--teald)">&#x1F4CA;</div>
+        <div class="en-h">ROI Calculator: Deal-Level</div>
+        <p>A simple input form for the AE: current contract volume, average time per review, and team size. Output: annual hours saved, equivalent FTE cost, and projected contract velocity improvement. Something they can paste into a proposal within two minutes.</p>
+      </div>
+      <div class="en-card">
+        <div class="en-icon" style="background:var(--ambd)">&#x1F4DD;</div>
+        <div class="en-h">Persona Pitch Decks</div>
+        <p>Three decks, not one. GC-focused (risk and compliance story), Revenue Ops-focused (speed and close rate), and CFO/Procurement-focused (total cost of ownership vs. Ironclad). Each 8 slides max, with one customer story built in.</p>
+      </div>
+      <div class="en-card">
+        <div class="en-icon" style="background:var(--grnd)">&#x1F916;</div>
+        <div class="en-h">AI Objection Handling Guide</div>
+        <p>"We're worried about sending our contracts to an AI model" is the most common new objection in 2025. Build a one-page response guide: how SpotDraft handles data, what on-device means, the Qualcomm validation, and ABA/California State Bar compliance language. Empower the AE to handle it without escalating to product.</p>
+      </div>
+      <div class="en-card">
+        <div class="en-icon" style="background:var(--redd)">&#x1F50D;</div>
+        <div class="en-h">Discovery Call Framework</div>
+        <p>A structured question set for opening calls that maps to SpotDraft's real differentiators: implementation timeline, current AI usage, privacy requirements, and cross-functional stakeholders. Helps Sales qualify faster and surface the right champion.</p>
+      </div>
+      <div class="en-card">
+        <div class="en-icon" style="background:var(--accd)">&#x1F4E6;</div>
+        <div class="en-h">Customer Story Library</div>
+        <p>Apollo.io, Panasonic, Zeplin, Whatfix: each of these has a story worth telling in a structured way. Industry, problem, result, quote. Organized by vertical so Sales can pull the right proof point for the right conversation, not the same case study for everyone.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:40px">
+      <div class="eye" style="margin-bottom:24px">Competitive Landscape Snapshot</div>
+      <div style="overflow-x:auto">
+        <table class="bc-table">
+          <thead>
+            <tr>
+              <th>Competitor</th>
+              <th>Where SpotDraft Wins</th>
+              <th>Where They're Strong</th>
+              <th>The Reframe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="comp">Ironclad</td>
+              <td><span class="win">Implementation (4-6 wks vs 3-6 mo), native eSign, embedded AI, pricing</span></td>
+              <td><span class="lose">Brand recognition, enterprise sales motion, deep workflow configurability</span></td>
+              <td>"How long can you afford to wait for go-live? And what's your plan when the AI layer doesn't talk to the core?"</td>
+            </tr>
+            <tr>
+              <td class="comp">DocuSign CLM</td>
+              <td><span class="win">AI-native architecture, modern UX, implementation speed, CLM-first thinking</span></td>
+              <td><span class="lose">eSign ecosystem lock-in, enterprise procurement relationships</span></td>
+              <td>"DocuSign acquired an AI company in 2024. SpotDraft built AI in from day one. That's a different product."</td>
+            </tr>
+            <tr>
+              <td class="comp">Juro</td>
+              <td><span class="win">Deeper contract analytics, on-device AI, customer success model, breadth of integrations</span></td>
+              <td><span class="lose">Browser-native UX, startup-friendly positioning, speed of templating</span></td>
+              <td>"Juro is great for small teams who live in the browser. If you're processing thousands of contracts, you need a platform that thinks at scale."</td>
+            </tr>
+            <tr>
+              <td class="comp">HyperStart CLM</td>
+              <td><span class="win">Track record, enterprise references, compliance certifications, Sidebar agent</span></td>
+              <td><span class="lose">Fast AI deployment, aggressive pricing, growing brand</span></td>
+              <td>"Fast deployment matters. So does what happens at month 13. SpotDraft's CS model and renewal track record are built for the long game."</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI WORKFLOW -->
+<section id="ai">
+  <div class="wrap">
+    <div class="eye">AI Workflow Engineering</div>
+    <h2 class="sh">How I'd use AI to build more with the same team.</h2>
+    <p class="ssub">The JD asks for AI literacy. This is what that looks like in practice for a PMM building GTM plays at SpotDraft's pace.</p>
+
+    <div class="ai-flow">
+      <div class="ai-step">
+        <div class="ai-step-n">01</div>
+        <div class="ai-step-h">Signal Capture</div>
+        <p>G2 reviews, competitor job posts, sales call transcripts, and win/loss notes fed into a structured prompt system. Weekly synthesis into a competitive intelligence brief, automated.</p>
+        <div class="ai-arrow">&rarr;</div>
+      </div>
+      <div class="ai-step">
+        <div class="ai-step-n">02</div>
+        <div class="ai-step-h">Draft Generation</div>
+        <p>Persona-specific copy variants for email sequences, battlecards, and pitch decks drafted from a master brief. First draft in under 20 minutes. Human review on tone and claims only.</p>
+        <div class="ai-arrow">&rarr;</div>
+      </div>
+      <div class="ai-step">
+        <div class="ai-step-n">03</div>
+        <div class="ai-step-h">Messaging QA</div>
+        <p>Every outbound piece run through a custom Claude prompt that checks for clarity, legal accuracy flags, persona fit, and the absence of generic PMM buzzwords. Consistent quality bar without a separate review round.</p>
+        <div class="ai-arrow">&rarr;</div>
+      </div>
+      <div class="ai-step">
+        <div class="ai-step-n">04</div>
+        <div class="ai-step-h">Performance Loop</div>
+        <p>Campaign results and sales feedback fed back into the system each week. Winning messages identified and turned into reusable frameworks. The playbook gets smarter every cycle.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;padding:24px 28px;background:var(--bg2);border:1px solid var(--bdr);border-radius:10px">
+      <div style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">Principle</div>
+      <p style="font-size:14.5px;color:var(--t1);line-height:1.72">AI does the first draft and the QA pass. A human does the strategy and the final call. The goal isn't to remove judgment from the loop, it's to make sure judgment is the only thing that requires human time. Every hour saved on repetitive tasks is an hour spent on the thinking that actually moves the metric.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER WORK -->
+<section id="work">
+  <div class="wrap">
+    <div class="eye">Other Relevant Work</div>
+    <h2 class="sh">Selected proof-of-work across B2B SaaS and GTM.</h2>
+    <p class="ssub">Each of these was built for a specific company, role, and GTM context. Not portfolio pieces, working examples of the same thinking applied to different markets.</p>
+
+    <div class="ow-grid">
+      <div class="ow-row">
+        <div class="ow-left">
+          <span class="ow-num">01</span>
+          <span class="ow-name">Locad</span>
+          <span class="ow-desc">Supply chain SaaS GTM strategy across APAC markets</span>
+        </div>
+        <span class="ow-tag" style="background:var(--accd);color:var(--acct)">GTM Strategy</span>
+        <a href="https://bhanuexcalibur.github.io/Locad/" target="_blank" class="ow-link">View &rarr;</a>
+      </div>
+      <div class="ow-row">
+        <div class="ow-left">
+          <span class="ow-num">02</span>
+          <span class="ow-name">Continuous</span>
+          <span class="ow-desc">Developer tooling positioning and messaging architecture</span>
+        </div>
+        <span class="ow-tag" style="background:var(--teald);color:var(--tealt)">Positioning</span>
+        <a href="https://bhanuexcalibur.github.io/Continuous/" target="_blank" class="ow-link">View &rarr;</a>
+      </div>
+      <div class="ow-row">
+        <div class="ow-left">
+          <span class="ow-num">03</span>
+          <span class="ow-name">ChargeBee</span>
+          <span class="ow-desc">Subscription lifecycle PMM strategy for SaaS billing platform</span>
+        </div>
+        <span class="ow-tag" style="background:var(--ambd);color:var(--ambt)">Lifecycle PMM</span>
+        <a href="https://bhanuexcalibur.github.io/ChargeBee/" target="_blank" class="ow-link">View &rarr;</a>
+      </div>
+      <div class="ow-row">
+        <div class="ow-left">
+          <span class="ow-num">04</span>
+          <span class="ow-name">Stripe</span>
+          <span class="ow-desc">Enterprise payments messaging and competitive differentiation</span>
+        </div>
+        <span class="ow-tag" style="background:var(--grnd);color:var(--grn)">Sales Enablement</span>
+        <a href="https://bhanuexcalibur.github.io/Stripe/" target="_blank" class="ow-link">View &rarr;</a>
+      </div>
+      <div class="ow-row">
+        <div class="ow-left">
+          <span class="ow-num">05</span>
+          <span class="ow-name">Revolut Business</span>
+          <span class="ow-desc">B2B GTM plays and persona-specific messaging for fintech</span>
+        </div>
+        <span class="ow-tag" style="background:var(--redd);color:var(--red)">B2B GTM</span>
+        <a href="https://bhanuexcalibur.github.io/RevolutBusiness/" target="_blank" class="ow-link">View &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="eye">About</div>
+    <div class="about-grid">
+      <div>
+        <p class="about-p">I'm a B2B product marketer with a bias toward things that can be measured. Most of my work sits at the intersection of positioning, sales enablement, and GTM execution: the space where a sharp narrative meets the actual pipeline number.</p>
+        <p class="about-p">I've built proof-of-work for companies across legal tech, fintech, logistics SaaS, and developer tooling. Each one starts with the same question: what does this company actually need to win, and what would I build if I were on the team tomorrow?</p>
+        <p class="about-p">The work above is that answer, specifically for SpotDraft.</p>
+        <div class="about-tags" style="margin-top:20px">
+          <span class="atag">GTM Strategy</span>
+          <span class="atag">Positioning & Messaging</span>
+          <span class="atag">Sales Enablement</span>
+          <span class="atag">Lifecycle Marketing</span>
+          <span class="atag">Competitive Intelligence</span>
+          <span class="atag">AI Workflows</span>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="cc-name">Bhanu Kumar</div>
+        <div class="cc-title">B2B Product Marketer &middot; Bengaluru</div>
+        <div class="cc-links">
+          <a href="mailto:bhanukumar0902@gmail.com" class="cc-link">
+            <span class="cc-link-icon">&#x2709;</span>
+            bhanukumar0902@gmail.com
+          </a>
+          <a href="https://linkedin.com/in/bhanuexcalibur/" target="_blank" class="cc-link">
+            <span class="cc-link-icon">in</span>
+            linkedin.com/in/bhanuexcalibur
+          </a>
+          <a href="https://drive.google.com/file/d/16YxkMHpBQK0nUaM9NcRrBVWuNuxS2q-l/view?usp=sharing" target="_blank" class="cc-link">
+            <span class="cc-link-icon">&#x1F4C4;</span>
+            View Resume
+          </a>
+        </div>
+        <div class="cc-divider"></div>
+        <div class="cc-note">Based in Bengaluru. Open to on-site at SpotDraft HQ. This page was built as a demonstration of real strategic thinking for this specific role and company.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-i">
+    <div class="footer-brand">Bhanu Kumar &times; SpotDraft &middot; Proof of Work &middot; 2025</div>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/bhanuexcalibur/" target="_blank">LinkedIn</a>
+      <a href="mailto:bhanukumar0902@gmail.com">Email</a>
+      <a href="https://drive.google.com/file/d/16YxkMHpBQK0nUaM9NcRrBVWuNuxS2q-l/view?usp=sharing" target="_blank">Resume</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Reading bar
+const rbar = document.getElementById('rbar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  rbar.style.width = pct + '%';
+}, {passive: true});
+
+// Hamburger
+const hbg = document.getElementById('hbg');
+const mob = document.getElementById('mob-menu');
+hbg.addEventListener('click', () => {
+  hbg.classList.toggle('open');
+  mob.classList.toggle('open');
+});
+function closeMob() {
+  hbg.classList.remove('open');
+  mob.classList.remove('open');
+}
+
+// Smooth anchor close
+document.querySelectorAll('.mob-menu a[href^="#"]').forEach(a => {
+  a.addEventListener('click', closeMob);
+});
+
+// Subtle scroll reveal
+if (window.IntersectionObserver) {
+  const cards = document.querySelectorAll('.play-card, .pos-card, .en-card, .ai-step, .ow-row');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, {threshold: 0.08});
+  cards.forEach(c => {
+    c.style.opacity = '0';
+    c.style.transform = 'translateY(16px)';
+    c.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    obs.observe(c);
+  });
+}
+</script>
+</body>
+</html>
